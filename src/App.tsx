@@ -8,6 +8,32 @@ function App() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [gatewayResponse, setGatewayResponse] = useState('');
+
+  const getAPIGatewaySituation = async(e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(`${API_GATEWAY_URL}/api/ping`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        setGatewayResponse(error)
+        throw new Error(error);
+      }
+      setGatewayResponse(await response.text())
+    } catch (err) {
+      setGatewayResponse(err instanceof Error ? err.message : 'Failed to download audio');
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +113,14 @@ function App() {
           {loading ? 'Downloading...' : 'Download Audio'}
         </button>
       </form>
+      <form onSubmit={getAPIGatewaySituation} className="space-y-4">
+        <button
+          className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+        >
+          Get situation
+        </button>
+      </form>
+      {gatewayResponse}
     </div>
   );
 } 

@@ -18,7 +18,17 @@ jobs:
       - run: |
           echo "VITE_API_GATEWAY_URL=${{ secrets.API_GATEWAY_URL }}" > .env
           npm run build
-      - uses: JamesIves/github-pages-deploy-action@4.1.7
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: github-pages
+          path: ../../dist
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: github-pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
           folder: dist

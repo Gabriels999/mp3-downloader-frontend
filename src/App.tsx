@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 
+// Get the API Gateway URL from environment variable
+const API_GATEWAY_URL = import.meta.env.VITE_API_GATEWAY_URL || '';
 
 function App() {
   const [url, setUrl] = useState('');
@@ -13,7 +15,7 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch('/api/download', {
+      const response = await fetch(`${API_GATEWAY_URL}/api/download`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

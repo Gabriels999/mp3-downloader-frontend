@@ -15,7 +15,9 @@ jobs:
         with:
             node-version: 22
       - run: npm ci
-      - run: npm run build
+      - run: |
+          echo "VITE_API_GATEWAY_URL=${{ secrets.API_GATEWAY_URL }}" > .env
+          npm run build
       - uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages

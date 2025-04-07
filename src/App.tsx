@@ -16,7 +16,7 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch(`${API_GATEWAY_URL}/api/ping`, {
+      const response = await fetch(`${API_GATEWAY_URL}/ping`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch(`${API_GATEWAY_URL}/api/download`, {
+      const response = await fetch(`${API_GATEWAY_URL}/download`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
